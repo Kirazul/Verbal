@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Verbal",
+  "version": "1.0.0",
+  "description": "Blazing fast full-page translation powered by Google Translate",
+  "permissions": ["activeTab", "storage", "scripting"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "translate-page": {
+      "suggested_key": {
+        "default": "Alt+A",
+        "windows": "Alt+A",
+        "mac": "Alt+A"
+      },
+      "description": "Translate the current page"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+/* Fun hand-drawn style indicator */
+#translator-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #fffef0;
+  border: 3px solid #222;
+  border-radius: 4px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 999999;
+  font-family: 'Comic Sans MS', 'Chalkboard', cursive, sans-serif;
+  font-size: 14px;
+  color: #222;
+  box-shadow: 4px 4px 0 #222;
+  opacity: 0;
+  transform: translateY(20px) rotate(-1deg);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+#translator-indicator.show {
+  opacity: 1;
+  transform: translateY(0) rotate(-1deg);
+  pointer-events: auto;
+}
+
+#translator-indicator::before {
+  content: '✏️';
+  font-size: 20px;
+  animation: wiggle 0.5s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+}
+
+#translator-indicator .progress {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#translator-indicator .progress-text {
+  font-weight: bold;
+  letter-spacing: -0.5px;
+}
+
+#translator-indicator .progress-bar-bg {
+  width: 100px;
+  height: 8px;
+  background: #fff;
+  border: 2px solid #222;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+#translator-indicator .progress-bar {
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    #ffeb3b,
+    #ffeb3b 5px,
+    #ffc107 5px,
+    #ffc107 10px
+  );
+  transition: width 0.3s ease;
+}
+
+#translator-indicator .close-btn {
+  background: #ff6b6b;
+  border: 2px solid #222;
+  color: #222;
+  cursor: pointer;
+  padding: 2px 8px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: inherit;
+  border-radius: 2px;
+  box-shadow: 2px 2px 0 #222;
+  transition: all 0.1s;
+}
+
+#translator-indicator .close-btn:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #222;
+}
+
+#translator-indicator .close-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* Done state - show checkmark via CSS */
+#translator-indicator.done::before {
+  content: '✅';
+  animation: none;
+}
+
+#translator-indicator.done .progress-text .count::before {
+  content: '✓ ';
+}
+
+/* Error state */
+#translator-indicator.error::before {
+  content: '❌';
+  animation: none;
+}
+
+/* Hide old overlay */
+#translator-overlay {
+  display: none !important;
+}
+
+/* Tooltip - also hand-drawn style */
+#translator-tooltip {
+  position: fixed;
+  max-width: 280px;
+  padding: 10px 14px;
+  background: #fffef0;
+  color: #222;
+  border: 2px solid #222;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: 'Comic Sans MS', 'Chalkboard', cursive, sans-serif;
+  box-shadow: 3px 3px 0 #222;
+  z-index: 999999;
+  animation: popIn 0.2s ease;
+  transform: rotate(0.5deg);
+}
+
+@keyframes popIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.8) rotate(-2deg); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1) rotate(0.5deg); 
+  }
+}

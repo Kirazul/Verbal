@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      width: 340px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1e1e1e;
+      color: #e0e0e0;
+      font-size: 14px;
+    }
+    
+    .lang-selector {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      gap: 12px;
+      border-bottom: 1px solid #333;
+    }
+    
+    .lang-box {
+      flex: 1;
+      background: #2d2d2d;
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .lang-box:hover { background: #3d3d3d; }
+    
+    .lang-box select {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      outline: none;
+    }
+    
+    .lang-box select option { background: #2d2d2d; color: #fff; }
+    .lang-label { font-size: 11px; color: #888; margin-bottom: 4px; }
+    .arrow { color: #888; font-size: 18px; }
+    
+    .section {
+      padding: 12px 16px;
+      border-bottom: 1px solid #333;
+    }
+    
+    .section-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+    }
+    
+    .section-label { color: #888; font-size: 13px; }
+    
+    .section-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+    }
+    
+    .service-icon {
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, #4f8cff, #6c5ce7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+    
+    .translate-section {
+      padding: 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      background: #2d2d2d;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    
+    .icon-btn:hover { background: #3d3d3d; }
+    .icon-btn svg { width: 20px; height: 20px; }
+    
+    #translateBtn {
+      flex: 1;
+      height: 44px;
+      background: linear-gradient(135deg, #c44569, #a94064);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    #translateBtn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #d4567a, #b94a6e);
+      transform: translateY(-1px);
+    }
+    
+    #translateBtn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    
+    .status-section {
+      padding: 12px 16px;
+      background: #252525;
+      display: none;
+    }
+    
+    .status-section.show { display: block; }
+    
+    .status-text {
+      font-size: 13px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    
+    .status-text.warning { color: #f0ad4e; }
+    .status-text.success { color: #5cb85c; }
+    .status-text.error { color: #d9534f; }
+    .status-text.loading { color: #5bc0de; }
+    
+    .toggle-section { padding: 8px 16px; }
+    
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    
+    .toggle-row:last-child { border-bottom: none; }
+    
+    .toggle-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ccc;
+      font-size: 13px;
+    }
+    
+    .toggle-left select {
+      background: transparent;
+      border: none;
+      color: #888;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none;
+    }
+    
+    .toggle-left select option { background: #2d2d2d; }
+    
+    .toggle {
+      width: 42px;
+      height: 24px;
+      background: #444;
+      border-radius: 12px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .toggle.active { background: #c44569; }
+    
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: left 0.3s;
+    }
+    
+    .toggle.active::after { left: 20px; }
+    
+    .tabs {
+      display: flex;
+      padding: 12px 16px;
+      gap: 8px;
+      border-bottom: 1px solid #333;
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 10px;
+      background: #2d2d2d;
+      border: none;
+      border-radius: 8px;
+      color: #888;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    
+    .tab:hover { background: #3d3d3d; color: #fff; }
+    .tab.active { background: #3d3d3d; color: #fff; }
+    .tab svg { width: 14px; height: 14px; }
+    
+    .tab-content { display: none; padding: 16px; }
+    .tab-content.active { display: block; }
+    
+    .text-area {
+      width: 100%;
+      height: 100px;
+      background: #2d2d2d;
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #fff;
+      padding: 12px;
+      font-size: 14px;
+      resize: none;
+      outline: none;
+      font-family: inherit;
+    }
+    
+    .text-area:focus { border-color: #c44569; }
+    
+    .text-result {
+      margin-top: 12px;
+      padding: 12px;
+      background: #252525;
+      border-radius: 8px;
+      min-height: 60px;
+      color: #ccc;
+      font-size: 14px;
+    }
+    
+    .text-result.empty { color: #666; font-style: italic; }
+    
+    .history-list { max-height: 200px; overflow-y: auto; }
+    
+    .history-item {
+      padding: 10px;
+      background: #2d2d2d;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .history-item:hover { background: #3d3d3d; }
+    .history-item-source { font-size: 12px; color: #888; margin-bottom: 4px; }
+    .history-item-text { font-size: 13px; color: #fff; }
+    
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-top: 1px solid #333;
+      color: #666;
+      font-size: 12px;
+    }
+    
+    .footer-left, .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    
+    .footer-left:hover, .footer-right:hover { color: #888; }
+    
+    .api-section {
+      padding: 12px 16px;
+      border-bottom: 1px solid #333;
+      display: none;
+    }
+    
+    .api-section.show { display: block; }
+    
+    .api-input {
+      width: 100%;
+      padding: 10px 12px;
+      background: #2d2d2d;
+      border: 1px solid #444;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+    }
+    
+    .api-input:focus { border-color: #c44569; }
+    
+    .btn-small {
+      padding: 8px 16px;
+      background: #c44569;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    
+    .btn-small:hover { background: #d4567a; }
+    
+    .clear-btn {
+      background: #444;
+      margin-left: 8px;
+    }
+    
+    .clear-btn:hover { background: #555; }
+  </style>
+</head>
+<body>
+  <!-- Language Selector -->
+  <div class="lang-selector">
+    <div class="lang-box">
+      <div class="lang-label">Source language</div>
+      <select id="sourceLang">
+        <option value="auto">Automatic</option>
+        <option value="en">English</option>
+        <option value="zh-CN">Chinese</option>
+        <option value="ja">Japanese</option>
+        <option value="ko">Korean</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+        <option value="de">German</option>
+        <option value="ru">Russian</option>
+        <option value="ar">Arabic</option>
+      </select>
+    </div>
+    <span class="arrow">→</span>
+    <div class="lang-box">
+      <div class="lang-label">Target language</div>
+      <select id="targetLang">
+        <option value="en">English (En)</option>
+        <option value="zh-CN">Chinese (简体)</option>
+        <option value="zh-TW">Chinese (繁體)</option>
+        <option value="ja">Japanese (日本語)</option>
+        <option value="ko">Korean (한국어)</option>
+        <option value="es">Spanish (Es)</option>
+        <option value="fr">French (Fr)</option>
+        <option value="de">German (De)</option>
+        <option value="it">Italian (It)</option>
+        <option value="pt">Portuguese (Pt)</option>
+        <option value="ru">Russian (Ru)</option>
+        <option value="ar">Arabic (Ar)</option>
+        <option value="hi">Hindi (Hi)</option>
+        <option value="th">Thai (Th)</option>
+        <option value="vi">Vietnamese (Vi)</option>
+      </select>
+    </div>
+  </div>
+  
+  <!-- API Settings -->
+  <div class="api-section" id="apiSection">
+    <div class="section-label" style="margin-bottom:8px;">API Endpoint</div>
+    <input type="text" class="api-input" id="apiUrl" placeholder="http://127.0.0.1:8088">
+  </div>
+  
+  <!-- Service Section -->
+  <div class="section">
+    <div class="section-row">
+      <span class="section-label">Service:</span>
+      <span class="section-value">
+        <img src="icons/googlelogo.png" alt="Google" style="height:18px;width:auto;">
+        Google Translate
+      </span>
+    </div>
+    <div class="section-row">
+      <span class="section-label">Speed:</span>
+      <span class="section-value">
+        <select id="speedMode" style="background:transparent;border:none;color:#fff;cursor:pointer;outline:none;">
+          <option value="100" style="background:#2d2d2d;">Fast (100)</option>
+          <option value="500" selected style="background:#2d2d2d;">Turbo (500)</option>
+          <option value="1000" style="background:#2d2d2d;">Insane (1000)</option>
+        </select>
+      </span>
+    </div>
+  </div>
+  
+  <!-- Translate Button -->
+  <div class="translate-section">
+    <button class="icon-btn" id="restoreBtn" title="Restore original">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/>
+        <path d="M3 3v5h5"/>
+      </svg>
+    </button>
+    <button id="translateBtn">Translate (Alt+A)</button>
+  </div>
+  
+  <!-- Status Section -->
+  <div class="status-section" id="statusSection">
+    <div class="status-text" id="statusText">
+      <span id="statusIcon">⚠️</span>
+      <span id="statusMessage">Ready to translate</span>
+    </div>
+  </div>
+  
+  <!-- Toggle Options -->
+  <div class="toggle-section">
+    <div class="toggle-row">
+      <span class="toggle-left">Always translate this site</span>
+      <div class="toggle" id="autoTranslate" data-key="autoTranslate"></div>
+    </div>
+    <div class="toggle-row">
+      <span class="toggle-left">Translate selected text</span>
+      <div class="toggle active" id="selectionTranslate" data-key="selectionTranslate"></div>
+    </div>
+  </div>
+  
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="translate">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10"/>
+      </svg>
+      Translate
+    </button>
+    <button class="tab" data-tab="text">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+      </svg>
+      Text
+    </button>
+    <button class="tab" data-tab="history">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+      History
+    </button>
+  </div>
+  
+  <!-- Tab Contents -->
+  <div class="tab-content active" id="tab-translate">
+    <!-- Main translate functionality is above -->
+  </div>
+  
+  <div class="tab-content" id="tab-text">
+    <textarea class="text-area" id="textInput" placeholder="Enter text to translate..."></textarea>
+    <button class="btn-small" id="translateTextBtn">Translate Text</button>
+    <div class="text-result empty" id="textResult">Translation will appear here</div>
+  </div>
+  
+  <div class="tab-content" id="tab-history">
+    <div class="history-list" id="historyList">
+      <div class="text-result empty">No translation history yet</div>
+    </div>
+    <button class="btn-small clear-btn" id="clearHistoryBtn">Clear History</button>
+  </div>
+  
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-left" id="settingsBtn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+      </svg>
+      Options
+    </div>
+    <span>v1.0.0</span>
+    <div class="footer-right" id="moreBtn">
+      More
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 9l6 6 6-6"/>
+      </svg>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
