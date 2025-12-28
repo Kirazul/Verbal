@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="extension/icons/logo.png" alt="Verbal Logo" width="120">
+  <img src="extension/icons/logo.png" alt="Verbal Logo" width="240">
 </p>
 
 <h1 align="center">Verbal</h1>
